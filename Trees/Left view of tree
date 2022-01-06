@@ -1,0 +1,50 @@
+Given a Binary Tree, print Left view of it. Left view of a Binary Tree is set of nodes visible when tree is visited from Left side. The task is to complete the function leftView(), which accepts root of the tree as argument.
+
+Left view of following tree is 1 2 4 8.
+
+          1
+       /     \
+     2        3
+   /     \    /  \
+  4     5   6      7
+   \
+     8   
+     
+     
+Approach: 
+
+Create an vector data structure inside both the left and the right side view function
+Call for the recursive _left and recursive_right function respectively with the (root,level,vector). Here level will be initially passed as 0.
+Return the vector.
+Now in the recursive_left function
+If vector size is equal to the level then push_back its node value to the vector data structure.
+Otherwise call recursive_left for (node->left,level+1,vector)
+Call recursive_left for (node->right,level+1,vector)
+Now in the recursive_right function
+If vector size is equal to the level then push_back its node value to the vector data structure.
+Otherwise call recursive_right for (node->right,level+1,vector)
+Call recursive_right for (node->left,level+1,vector
+
+
+code:
+
+class Tree
+{
+    //Function to return list containing elements of left view of binary tree.
+    ArrayList<Integer> leftView(Node root)
+    {
+      ArrayList<Integer>res=new ArrayList<>();
+      leftview(root,res,0);
+      return res;
+    }
+    public void leftview(Node root,List<Integer>res,int currdepth){
+        if(root==null){
+            return;
+        }
+        if(currdepth==res.size()){
+            res.add(root.data);
+        }
+        leftview(root.left,res,currdepth+1);
+        leftview(root.right,res,currdepth+1);
+    }
+}
