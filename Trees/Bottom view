@@ -1,0 +1,73 @@
+/*
+Given a binary tree, print the bottom view from left to right.
+A node is included in bottom view if it can be seen when we look at the tree from bottom.
+
+                      20
+                    /    \
+                  8       22
+                /   \        \
+              5      3       25
+                    /   \      
+                  10    14
+
+For the above tree, the bottom view is 5 10 3 14 25.
+If there are multiple bottom-most nodes for a horizontal distance from root, then print the later one in level traversal. For example, in the below diagram, 3 and 4 are both the bottommost nodes at horizontal distance 0, we need to print 4.
+
+                      20
+                    /    \
+                  8       22
+                /   \     /   \
+              5      3 4     25
+                     /    \      
+                 10       14
+
+For the above tree the output should be 5 10 4 14 25.
+ */
+ 
+Approach: 
+
+  First we have to make a queue of pair which have nodes and their respective +ve and -ve indexes.
+  Then we need a map data structure to store the lines and the nodes. This map will store the data in the form of sorted orders of keys(Lines).
+  Here we will follow the level order traversal.
+  Traverse through the nodes starting with root,0 and store them to the queue.
+  Until the queue is not empty, store the node  and line no. in 2 separate variables .
+  Then store the line and the node->val to the map, if there will be any node value present that corresponds to a line in the map , it will be replaced by the new node value and by this we will get the last node of each line.
+  Store the node->left and node->right along with their line nos. to the queue.
+  Then print the node->val from the map
+  
+code:
+
+class Solution
+{
+    //Function to return a list containing the bottom view of the given tree.
+    public ArrayList <Integer> bottomView(Node root)
+    {
+        // Code here
+        ArrayList<Integer>res=new ArrayList<>();
+        if(root==null){
+            return res;
+        }
+        Map<Integer, Integer> map = new TreeMap<>();
+        Queue<Node> queue = new LinkedList<Node>();
+        root.hd = 0;
+        queue.add(root);
+        while(!queue.isEmpty()) {
+            Node temp = queue.remove();
+            int hd = temp.hd; 
+            map.put(hd, temp.data); 
+            if(temp.left != null) {
+                temp.left.hd = hd - 1; 
+                queue.add(temp.left); 
+            }
+            if(temp.right != null) {
+                temp.right.hd = hd + 1; 
+                queue.add(temp.right); 
+            }
+        }
+        
+        for (Map.Entry<Integer,Integer> entry : map.entrySet()) {
+            res.add(entry.getValue()); 
+        }
+        return res; 
+    }
+}
