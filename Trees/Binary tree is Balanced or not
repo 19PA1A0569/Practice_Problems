@@ -1,0 +1,50 @@
+/*
+Given a binary tree, determine if it is height-balanced.
+
+For this problem, a height-balanced binary tree is defined as:
+
+a binary tree in which the left and right subtrees of every node differ in height by no more than 1.
+
+ 
+
+Example 1:
+
+
+Input: root = [3,9,20,null,null,15,7]
+Output: true
+Example 2:
+
+
+Input: root = [1,2,2,3,3,null,null,4,4]
+Output: false
+Example 3:
+
+Input: root = []
+Output: true
+*/
+Approach : 
+
+  Start traversing the tree recursively and do work in Post Order.
+  For each call, caculate the height of the root node, and return it to previous calls.  
+  Simultaneously, in the Post Order of every node , Check for condition of balance as information of left and right subtree height is available.
+  If it is balanced , simply return height of current node and if not then return -1.
+  Whenever the subtree result is -1 , simply keep on returning -1.
+  
+  
+code:
+class Solution {
+    public boolean isBalanced(TreeNode root) {
+        return Height (root) != -1;
+    }
+    int Height (TreeNode root) {
+        if (root == null) return 0;
+        
+        int leftHeight = Height (root.left);
+        if (leftHeight == -1) return -1;
+        int rightHeight = Height (root.right);
+        if (rightHeight == -1) return -1;
+        
+        if (Math.abs(leftHeight - rightHeight) > 1)  return -1;
+        return Math.max(leftHeight, rightHeight) + 1;
+    }
+}
