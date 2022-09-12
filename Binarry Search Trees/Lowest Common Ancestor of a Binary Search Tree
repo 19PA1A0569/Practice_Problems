@@ -50,7 +50,7 @@ class Solution {
         if(root<p && root<q){
             return lowestCommonAncestor(root.right,p,q);
         }
-        if(root>p && root<q){
+        if(root>p && root>q){
             return lowestCommonAncestor(root.left,p,q);
         }
         return root;
